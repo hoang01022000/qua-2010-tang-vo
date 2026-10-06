@@ -7,10 +7,45 @@ import { Sparkles, Heart, Gift, Check, Send, ArrowRight, ExternalLink, Link as L
 import { EARRINGS_DATA, Earring } from "@/data/earrings";
 
 export default function Home() {
-  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5>(1);
-  const [selectedEarring, setSelectedEarring] = useState<Earring | null>(null);
-  const [customLink, setCustomLink] = useState("");
-  const [message, setMessage] = useState("");
+  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("gift_step");
+      if (saved) {
+        const parsed = parseInt(saved, 10);
+        if ([1, 2, 3, 4, 5].includes(parsed)) return parsed as 1 | 2 | 3 | 4 | 5;
+      }
+    }
+    return 1;
+  });
+
+  const [selectedEarring, setSelectedEarring] = useState<Earring | null>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("gift_selectedEarring");
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          return null;
+        }
+      }
+    }
+    return null;
+  });
+
+  const [customLink, setCustomLink] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("gift_customLink") || "";
+    }
+    return "";
+  });
+
+  const [message, setMessage] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("gift_message") || "";
+    }
+    return "";
+  });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   
@@ -40,6 +75,20 @@ export default function Home() {
       }
     };
   }, []);
+
+  // Save state to localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("gift_step", step.toString());
+      if (selectedEarring) {
+        localStorage.setItem("gift_selectedEarring", JSON.stringify(selectedEarring));
+      } else {
+        localStorage.removeItem("gift_selectedEarring");
+      }
+      localStorage.setItem("gift_customLink", customLink);
+      localStorage.setItem("gift_message", message);
+    }
+  }, [step, selectedEarring, customLink, message]);
 
   const startMusic = () => {
     if (!audioRef.current) return;
@@ -280,10 +329,11 @@ export default function Home() {
           {step === 1 && (
             <motion.div
               key="step1"
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: -20 }}
-              transition={{ duration: 0.5, type: "spring" }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+              style={{ willChange: "transform, opacity" }}
               className="w-full max-w-md bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-rose-200 p-8 text-center relative overflow-hidden"
             >
               <div className="absolute -top-12 -right-12 w-32 h-32 bg-rose-200 rounded-full blur-2xl opacity-50"></div>
@@ -318,10 +368,11 @@ export default function Home() {
           {step === 2 && (
             <motion.div
               key="step2"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.4 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+              style={{ willChange: "transform, opacity" }}
               className="w-full max-w-3xl bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-rose-200 p-8 text-center relative overflow-hidden flex flex-col items-center"
             >
               <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">
@@ -369,7 +420,7 @@ export default function Home() {
 
               {openedBoxes && (
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="w-full flex flex-col items-center gap-4 mt-2"
                 >
@@ -392,10 +443,11 @@ export default function Home() {
           {step === 3 && (
             <motion.div
               key="step3"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.4 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+              style={{ willChange: "transform, opacity" }}
               className="w-full max-w-5xl bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-rose-200 p-6 sm:p-10 relative overflow-hidden"
             >
               <div className="text-center mb-6">
@@ -533,10 +585,11 @@ export default function Home() {
           {step === 4 && (
             <motion.div
               key="step4"
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -30 }}
-              transition={{ duration: 0.5 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+              style={{ willChange: "transform, opacity" }}
               className="w-full flex flex-col items-center"
             >
               <div className="text-center mb-4">
@@ -708,9 +761,11 @@ export default function Home() {
           {step === 5 && (
             <motion.div
               key="step5"
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.5, type: "spring" }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+              style={{ willChange: "transform, opacity" }}
               className="w-full max-w-lg bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-rose-200 p-8 sm:p-10 text-center relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 left-0 h-2 bg-gradient-to-r from-rose-500 via-pink-500 to-red-500"></div>
@@ -753,6 +808,12 @@ export default function Home() {
 
               <button
                 onClick={() => {
+                  if (typeof window !== "undefined") {
+                    localStorage.removeItem("gift_step");
+                    localStorage.removeItem("gift_selectedEarring");
+                    localStorage.removeItem("gift_customLink");
+                    localStorage.removeItem("gift_message");
+                  }
                   setStep(1);
                   setSelectedEarring(null);
                   setCustomLink("");
