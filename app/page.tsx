@@ -293,11 +293,11 @@ export default function Home() {
               </div>
 
               <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4 leading-snug">
-                Chúc mừng Hiền! 🎉
+                Chào bạn Hiền! 👋
               </h1>
 
               <p className="text-gray-600 text-base mb-8 leading-relaxed">
-                Hoàng đã chuẩn bị chuỗi minigame bất ngờ để trao phần quà đặc biệt cho Hiền!
+                Hãy cùng chơi minigame để xem hôm nay vận may mang đến cho Hiền phần quà đặc biệt nào từ Hoàng nhé! ✨
               </p>
 
               <button
