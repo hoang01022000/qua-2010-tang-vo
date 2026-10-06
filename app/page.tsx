@@ -490,7 +490,7 @@ export default function Home() {
                       </span>
                     ) : spinPhase === 'teasing' ? (
                       <span className="text-amber-700 font-bold italic animate-pulse">
-                        Kim đang lướt qua ô 100 Triệu... Đứng hình mất 5 giây... Nhích nhẹ sang ô Bông Tai nào! 🤭
+                        Kim đang lướt qua ô 100 Triệu... Nhích nhẹ sang ô Bông Tai nào! 🤭
                       </span>
                     ) : spinPhase === 'spinning' ? (
                       <span className="text-rose-600 font-semibold italic animate-pulse">
