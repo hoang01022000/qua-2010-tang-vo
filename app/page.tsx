@@ -139,8 +139,12 @@ export default function Home() {
   };
 
   const handleSelectEarring = (earring: Earring) => {
-    setSelectedEarring(earring);
-    setCustomLink("");
+    if (selectedEarring?.id === earring.id) {
+      setSelectedEarring(null);
+    } else {
+      setSelectedEarring(earring);
+      setCustomLink("");
+    }
     setErrorMsg("");
   };
 
@@ -464,8 +468,8 @@ export default function Home() {
                     </div>
 
                     {/* Center knob */}
-                    <div className="absolute z-20 w-16 h-16 bg-gradient-to-tr from-rose-600 to-pink-600 rounded-full border-4 border-white shadow-xl flex items-center justify-center text-white text-xs font-extrabold">
-                      QUAY
+                    <div className="absolute z-20 w-16 h-16 bg-gradient-to-tr from-rose-600 to-pink-600 rounded-full border-4 border-white shadow-xl flex items-center justify-center text-white">
+                      <Sparkles className="w-6 h-6 animate-pulse" />
                     </div>
                   </div>
                 </div>
