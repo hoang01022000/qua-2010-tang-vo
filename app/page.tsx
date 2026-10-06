@@ -720,7 +720,7 @@ export default function Home() {
               </h2>
 
               <p className="text-gray-600 text-base mb-6 leading-relaxed">
-                Yêu cầu món quà <span className="font-bold text-rose-600">"{customLink ? customLink : selectedEarring?.name}"</span> kèm lời nhắn đã được gửi thẳng về điện thoại của Hoàng qua Telegram!
+                Yêu cầu món quà <span className="font-bold text-rose-600">"{customLink ? customLink : selectedEarring?.name}"</span> kèm lời nhắn đã được gửi đến Hoàng!
               </p>
 
               {/* Box tổng kết */}
@@ -769,7 +769,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="w-full max-w-[92vw] mx-auto text-center py-3 text-xs text-gray-500 z-10 border-t border-rose-100/50 shrink-0">
-        Made with ❤️ for 20/10 by Hoàng &bull; Next.js App Router & Tailwind CSS
+        Made with ❤️ for Hiền by Hoàng
       </footer>
     </main>
   );
